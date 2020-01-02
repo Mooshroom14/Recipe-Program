@@ -15,7 +15,7 @@
 		</div>
 		<div id = "main">	
 <?php
-	include('../../htconfig/recipeConfig.php'); 
+	include('../../../htconfig/recipeConfig.php'); 
 	
 	$dbc = mysqli_connect($db['hostname'],$db['username'],$db['password'], $db['database']);
 	
