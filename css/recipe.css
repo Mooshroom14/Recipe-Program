@@ -9,8 +9,9 @@ fieldset {
 
 a {
 	text-align: center;
-	padding: 5px;
+	padding: 3px;
 	border-style: outset;
+	border-width: 5px;
 	border-color: blue;
 }
 
@@ -34,7 +35,7 @@ a {
 	float: left;
 	width: 18.5%;
 	text-align: center;
-	padding: 5px;
+	padding: 20px;
 	/*border-color: black;
 	border-width: .25em;
 	border-style: solid;*/

@@ -8,15 +8,15 @@
 	</header>
 	<body>
 		<div id = "heading">
-			<?php include("header.php"); ?>
+			<?php include("header.html"); ?>
 		</div>
 		<div id = "menu">
-			<?php include("menu.php"); ?>
+			<?php include("menu.html"); ?>
 		</div>
 		<div id = "main">
 		</div>
 		<div id = "footer">
-			<?php include("footer.php"); ?>
+			<?php include("footer.html"); ?>
 		</div>
 	</body>
 </html>
