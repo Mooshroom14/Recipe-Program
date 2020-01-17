@@ -29,12 +29,14 @@
 	if (isset($submit) and !isset($ingredients)) {
 		$name = $_REQUEST["recipeName"];
 		$time = $_REQUEST["cookTime"];
+		$numServings = $_REQUEST["numServings"];
 		$category = $_REQUEST["category"];
 		$numIngredients = $_REQUEST["numIngredients"];
 		
 		addRecipe($name, $time, $category, $numIngredients, $dbc);
 		
-	} elseif(isset($ingredients)) {
+	} 
+	elseif(isset($ingredients)) {
 		$numIngredients = $_REQUEST["numIngredients"];
 		for ($i = 1; $i <= $numIngredients; $i++) {
 			$recipeID = $_REQUEST["recipeID$i"];
@@ -44,7 +46,8 @@
 			addIngredients($recipeID, $name, $amount, $unit, $dbc);
 		}
 		
-	} elseif(isset($steps))	{
+	} 
+	elseif(isset($steps)) {
 		$numSteps = $_REQUEST["numSteps"];
 		for ($i = 1; $i <= $numSteps; $i++) {
 			$recipeID = $_REQUEST["recipeID$i"];
@@ -54,8 +57,9 @@
 			addSteps($recipeID, $stepNum, $step, $dbc);
 		}
 		print("<h1 class = \"finish\">Recipe Has Been Added</h1>");
-		print("<a href = \"index.php\">Home</a>")
-	} else {
+		print("<a href = \"index.php\">Home</a>");
+	} 
+	else {
 		print <<<HERE
 		<form method = "post" 
 			  action = "addRecipe.php">
@@ -85,6 +89,11 @@ HERE;
 			}
 		print <<<HERE
 					</select>
+				</p>
+				<p>
+					<label>Number of Servings</label>
+					<input type = "text"
+						   name = "numServings" />
 				</p>
 				<p
 					<label>Number of ingredients:</label>

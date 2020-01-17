@@ -8,7 +8,7 @@
 	</header>
 	<body>
 		<div id = "heading">
-			<?php include("header.html"); ?>
+			<?php include("header.php"); ?>
 		</div>
 		<div id = "menu">
 			<?php include("menu.html"); ?>

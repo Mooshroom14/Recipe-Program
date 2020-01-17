@@ -20,6 +20,10 @@ a {
 	color: red;
 }
 
+.recipeLink {
+	
+}
+
 #heading {
 	color: navy;
 	background-color: white;
@@ -33,9 +37,9 @@ a {
 #menu {
 	background-color: #999999;
 	float: left;
-	width: 18.5%;
+	width: 17%;
 	text-align: center;
-	padding: 20px;
+	padding: 15px;
 	/*border-color: black;
 	border-width: .25em;
 	border-style: solid;*/
