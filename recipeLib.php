@@ -182,20 +182,23 @@ HERE;
 						$recipeTime = $row["recipeTime"];
 						$numServings = $row["numServings"];
 						
+						// get the category information
 						$categoryID = $row["categoryID"];
 						$sqlC = "SELECT categoryName FROM categories WHERE categoryID = $categoryID";
 						$result = mysqli_query($conn, $sqlC) or die(mysqli_error($conn));
 						while($row = mysqli_fetch_array($sqlC, MYSQL_ASSOC)) {
 							$category = $row["categoryName"];
 						}
-						
+						// print list of recipes in a form
 						print<<<HERE
 							<form>
 								<fieldset>
+									<label>$recipeName</label>
 									<input class = "recipeLink"
 										   type = "submit"
 										   name = "recipe"
-										   value = "$recipeName" />
+										   value = "Go to recipe" />
+									<p>$recipeTime		$numServings		$category</p>
 								</fieldset>
 							</form>							
 HERE;
@@ -204,7 +207,7 @@ HERE;
 			}
 			else {
 				while($row = mysqli_fetch_array($sql1, MYSQL_ASSOC)) {
-					
+					$ID = $row["recipeID"];
 				}
 			}
 			
