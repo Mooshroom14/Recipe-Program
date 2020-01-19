@@ -112,7 +112,9 @@ HERE;
 
 	// Shows the recipe based off of a recipeID
 		function showRecipe($recipeID, $conn) {
-			
+			$sqlri = "SELECT * FROM recipeinfo WHERE recipeID = $recipeID";
+			$sqlst = "SELECT * FROM steps WHERE recipeID = $recipeID";
+			$sqlig = "SELECT * FROM ingredients WHERE recipeID = $recipeID"
 		}
 
 	// Form for searching the recipe database
@@ -172,45 +174,40 @@ HERE;
 			$sql1 = "SELECT recipeID FROM $table WHERE $field LIKE $srchVal"; 
 			$results = mysqli_query($conn, $sql1) or die(mysqli_error($conn));
 			
-			if($table == "ingredients") {
-				while($row = mysqli_fetch_array($sql1, MYSQL_ASSOC)) {
-					$ID = $row["recipeID"];
-					$sqlIng = "SELECT * FROM recipinfo WHERE recipeID = $ID";
-					$query = mysqli_query($conn, $sqlIng) or die(mysqli_error($conn));
-					while($row = mysqli_fetch_array($sqlIng, MYSQL_ASSOC)) {
-						$recipeName = $row["recipeName"];
-						$recipeTime = $row["recipeTime"];
-						$numServings = $row["numServings"];
-						
-						// get the category information
-						$categoryID = $row["categoryID"];
-						$sqlC = "SELECT categoryName FROM categories WHERE categoryID = $categoryID";
-						$result = mysqli_query($conn, $sqlC) or die(mysqli_error($conn));
-						while($row = mysqli_fetch_array($sqlC, MYSQL_ASSOC)) {
-							$category = $row["categoryName"];
-						}
-						// print list of recipes in a form
-						print<<<HERE
-							<form>
-								<fieldset>
-									<label>$recipeName</label>
-									<input class = "recipeLink"
-										   type = "submit"
-										   name = "recipe"
-										   value = "Go to recipe" />
-									<p>$recipeTime		$numServings		$category</p>
-								</fieldset>
-							</form>							
-HERE;
+			while($row = mysqli_fetch_array($sql1, MYSQL_ASSOC)) {
+				$ID = $row["recipeID"];
+				$sqlIng = "SELECT * FROM recipinfo WHERE recipeID = $ID";
+				$query = mysqli_query($conn, $sqlIng) or die(mysqli_error($conn));
+				while($row = mysqli_fetch_array($sqlIng, MYSQL_ASSOC)) {
+					$recipeName = $row["recipeName"];
+					$recipeTime = $row["recipeTime"];
+					$numServings = $row["numServings"];
+					
+					// get the category information
+					$categoryID = $row["categoryID"];
+					$sqlC = "SELECT categoryName FROM categories WHERE categoryID = $categoryID";
+					$result = mysqli_query($conn, $sqlC) or die(mysqli_error($conn));
+					while($row = mysqli_fetch_array($sqlC, MYSQL_ASSOC)) {
+						$category = $row["categoryName"];
 					}
+					// print list of recipes in a form
+					print<<<HERE
+						<form method = "post" action = "showRecipe.php">
+							<fieldset>
+								<label>$recipeName</label>
+								<input class = "recipeLink"
+									   type = "submit"
+									   name = "recipe"
+									   value = "Go to recipe" />
+								<input type = "hidden"
+									   name = "whatRecipe"
+									   value = "$ID" />
+								<p>$recipeTime		$numServings		$category</p>
+							</fieldset>
+						</form>							
+HERE;
 				}
-			}
-			else {
-				while($row = mysqli_fetch_array($sql1, MYSQL_ASSOC)) {
-					$ID = $row["recipeID"];
-				}
-			}
-			
+			}			
 		}
 		
 ?>

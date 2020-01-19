@@ -23,6 +23,7 @@
 	searchRecipeForm();
 	
 	$search = $_REQUEST["search"];
+	$whatRecipe = $_POST["whatRecipe"];
 	
 	if (isset($search)) {
 		// Get the values from the search form
@@ -31,6 +32,10 @@
 		
 		// Show the results as a form
 		showResults($searchValue, $searchField, $dbc);
+	}
+	
+	if (isset($whatRecipe)) {
+		showRecipe($whatRecipe, $dbc);
 	}
 ?>
 		</div>
