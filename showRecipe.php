@@ -22,8 +22,9 @@
 	
 	searchRecipeForm();
 	
-	$search = $_REQUEST["search"];
+	$search = $_POST["search"];
 	$whatRecipe = $_POST["whatRecipe"];
+	$whatCategory = $_POST["whatCategory"];
 	
 	if (isset($search)) {
 		// Get the values from the search form
@@ -35,7 +36,7 @@
 	}
 	
 	if (isset($whatRecipe)) {
-		showRecipe($whatRecipe, $dbc);
+		showRecipe($whatRecipe, $whatCategory, $dbc);
 	}
 ?>
 		</div>

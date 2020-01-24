@@ -33,24 +33,26 @@
 		$category = $_REQUEST["category"];
 		$numIngredients = $_REQUEST["numIngredients"];
 		
-		addRecipe($name, $time, $category, $numIngredients, $dbc);
+		addRecipe($name, $time, $numServings, $category, $numIngredients, $dbc);
 		
 	} 
 	elseif(isset($ingredients)) {
+		$numSteps = $_REQUEST["numSteps"];
 		$numIngredients = $_REQUEST["numIngredients"];
 		for ($i = 1; $i <= $numIngredients; $i++) {
-			$recipeID = $_REQUEST["recipeID$i"];
+			$recipeID = $_REQUEST["recipeID"];
 			$name = $_REQUEST["ingredientName$i"];
 			$amount = $_REQUEST["ingredientAmount$i"];
 			$unit = $_REQUEST["unit$i"];
 			addIngredients($recipeID, $name, $amount, $unit, $dbc);
 		}
+		addStepsForm($id, $numSteps);
 		
 	} 
 	elseif(isset($steps)) {
 		$numSteps = $_REQUEST["numSteps"];
 		for ($i = 1; $i <= $numSteps; $i++) {
-			$recipeID = $_REQUEST["recipeID$i"];
+			$recipeID = $_REQUEST["recipeID"];
 			$stepNum = $i;
 			$step = $_REQUEST["step$i"];
 			

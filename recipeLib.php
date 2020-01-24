@@ -7,7 +7,7 @@
 				<fieldset>
 					<legend>Step #$i</legend>
 					<p>
-						<textarea name = "step"
+						<textarea name = "step$i"
 								  rows = 8
 								  cols = 50></textarea>
 					</p>
@@ -60,7 +60,7 @@ HERE;
 					</p>
 					<p>
 						<input type = "hidden"
-							   name = "recipeID$i"
+							   name = "recipeID"
 							   value = "$recipeID" />
 					</p>
 				</fieldset>
@@ -73,7 +73,7 @@ HERE;
 				<p>
 					<label>Number of steps:</label>
 					<input type = "text"
-						name = "numSteps" />
+						   name = "numSteps" />
 				</p>
 				 <input type = "submit" 
 						name = "formIng" 
@@ -85,16 +85,11 @@ HERE;
 	// Adds ingredients
 		function addIngredients($id, $name, $amount, $unit, $conn) {
 			$Isql = "INSERT INTO ingredients VALUES ('NULL', '$id', '$name', '$amount', '$unit')";
-			$Iresult = mysqli_query($conn, $Isql) or die(mysqli_error($conn));
-			
-			$numSteps = $_REQUEST["numSteps"];
-			
-			addStepsForm($id, $numSteps);
+			$Iresult = mysqli_query($conn, $Isql) or die(mysqli_error($conn));			
 		}
 		
 	// Adds main recipe info
 		function addRecipe($name, $time, $numServings, $category, $numIngredients, $conn) {
-			
 			$Isql = "INSERT INTO recipeinfo VALUES ('NULL', '$name', '$time', '$numServings', '$category')";
 			$Iresult = mysqli_query($conn, $Isql) or die(mysqli_error($conn));
 			
@@ -111,10 +106,68 @@ HERE;
 		}
 
 	// Shows the recipe based off of a recipeID
-		function showRecipe($recipeID, $conn) {
-			$sqlri = "SELECT * FROM recipeinfo WHERE recipeID = $recipeID";
-			$sqlst = "SELECT * FROM steps WHERE recipeID = $recipeID";
-			$sqlig = "SELECT * FROM ingredients WHERE recipeID = $recipeID"
+		function showRecipe($recipeID, $categoryName, $conn) {
+			// create variables to hold queries 
+			$getRecipe = "SELECT * FROM recipeinfo WHERE recipeID = $recipeID";
+			$getSteps = "SELECT * FROM steps WHERE recipeID = $recipeID";
+			$getIngredients = "SELECT * FROM ingredients WHERE recipeID = $recipeID";
+			
+			// create variables to hold results 
+			$recipeResults = mysqli_query($conn, $getRecipe);
+			$stepsResults = mysqli_query($conn, $getSteps);
+			$ingredientsResults = mysqli_query($conn, $getIngredients);
+			
+			// get the information from the results
+			while($row = mysqli_fetch_array($recipeResults, MYSQL_ASSOC)) {
+				$category = $row["categoryID"];
+				$recipeName = $row["recipeName"];
+				$recipeTime = $row["recipeTime"];
+				$recipeServings = $row["numServings"];
+			}
+			
+			// get the category name
+			$getCategory = "SELECT categoryName FROM categories WHERE categoryID = $category";
+			$categoryResults = mysqli_query($conn, $getCategory);
+			while($row = mysqli_fetch_array($categoryResults, MYSQL_ASSOC)) {
+				$categoryName = $row["categoryName"];
+			}			
+			
+			// print main recipe information
+			print <<<HERE
+				<h1 id = "recipeTitle">$recipeName</h1>
+				<div id = "recipeinfo">
+					<p>Category: $categoryName			Cooking Time: $recipeTime		Servings: $recipeServings</p>
+				</div>
+				<div>
+					<ul>
+HERE;
+			// print ingredients 
+			while($row = mysqli_fetch_array($ingredientsResults, MYSQL_ASSOC)) {
+				foreach ($row as $name => $value) {
+					// $ingredientID = $row["ingredientID"];
+					$ingredientName = $row["name"];
+					$ingredientAmount = $row["amountNum"];
+					$ingredientUnit = $row["unit"];
+					
+					print("<li>$ingredientAmount $ingredientUnit 	$ingredientName</li>");
+				}
+			}
+			
+			print("</ul></div>");
+			print("<div><dl>");
+			
+			// print steps for the recipe
+			while($row = mysqli_fetch_array($stepsResults, MYSQL_ASSOC)) {
+				foreach ($row as $name => $value) {
+					$stepNum = $row["stepNum"];
+					$step = $row["step"];
+					
+					print("<dt>$stepNum</dt>");
+					print("<dd>$step</dd>")
+				}
+			}
+			
+			print("</dl></div>");
 		}
 
 	// Form for searching the recipe database
@@ -147,7 +200,8 @@ HERE;
 		
 	// Show the results of a search
 		function showResults($srchVal, $srchField, $conn) {
-			$table, $field;
+			$table;
+			$field;
 			switch ($srchField) {
 				case 'name':
 					$table = "recipeinfo";
@@ -174,11 +228,11 @@ HERE;
 			$sql1 = "SELECT recipeID FROM $table WHERE $field LIKE $srchVal"; 
 			$results = mysqli_query($conn, $sql1) or die(mysqli_error($conn));
 			
-			while($row = mysqli_fetch_array($sql1, MYSQL_ASSOC)) {
+			while($row = mysqli_fetch_array($results, MYSQL_ASSOC)) {
 				$ID = $row["recipeID"];
 				$sqlIng = "SELECT * FROM recipinfo WHERE recipeID = $ID";
 				$query = mysqli_query($conn, $sqlIng) or die(mysqli_error($conn));
-				while($row = mysqli_fetch_array($sqlIng, MYSQL_ASSOC)) {
+				while($row = mysqli_fetch_array($query, MYSQL_ASSOC)) {
 					$recipeName = $row["recipeName"];
 					$recipeTime = $row["recipeTime"];
 					$numServings = $row["numServings"];
@@ -187,7 +241,7 @@ HERE;
 					$categoryID = $row["categoryID"];
 					$sqlC = "SELECT categoryName FROM categories WHERE categoryID = $categoryID";
 					$result = mysqli_query($conn, $sqlC) or die(mysqli_error($conn));
-					while($row = mysqli_fetch_array($sqlC, MYSQL_ASSOC)) {
+					while($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 						$category = $row["categoryName"];
 					}
 					// print list of recipes in a form
@@ -202,6 +256,9 @@ HERE;
 								<input type = "hidden"
 									   name = "whatRecipe"
 									   value = "$ID" />
+								<input type = "hidden"
+									   name = "whatCategory"
+									   value = "$category"
 								<p>$recipeTime		$numServings		$category</p>
 							</fieldset>
 						</form>							

@@ -15,6 +15,10 @@ a {
 	border-color: blue;
 }
 
+dt {
+	font-weight: bold;
+}
+
 .finish {
 	text-align: center;
 	color: red;
@@ -22,6 +26,17 @@ a {
 
 .recipeLink {
 	
+}
+
+#recipeTitle {
+	text-align: center;
+	color: white;
+	background-color: blue; 
+}
+
+#recipeinfo {
+	text-align: center;
+	color: black;
 }
 
 #heading {
