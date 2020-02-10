@@ -163,7 +163,7 @@ HERE;
 					$step = $row["step"];
 					
 					print("<dt>$stepNum</dt>");
-					print("<dd>$step</dd>")
+					print("<dd>$step</dd>");
 				}
 			}
 			
@@ -267,4 +267,18 @@ HERE;
 			}			
 		}
 		
+	// Show the edit form for a certain recipe
+		function editRecipeForm($recipeID, $conn) {
+			print <<<HERE
+				<form action = "editRecipe.php">
+					<fieldset>
+					</fieldset
+				</form>
+HERE;
+		}
+
+	// Edits the recipe and updates the information	
+		function updateRecipe($recipeID, $conn) {
+			
+		}		
 ?>
