@@ -28,10 +28,11 @@ HERE;
 			print("</form>");
 		}
 		
-	// Adds actual steps
+	// Adds steps to database
 		function addSteps($recipeID, $stepNum, $step, $conn) {
 			$IsqlS = "INSERT INTO steps VALUES ('NULL', '$recipeID', '$stepNum', '$step')";
 			$IresultS = mysqli_query($conn, $IsqlS) or die(mysqli_error($conn));
+			
 		}
 		
 	// Adds the form for the ingredients
@@ -196,6 +197,7 @@ HERE;
 				</fieldset>
 			</form>
 HERE;
+		$search = true;
 		}
 		
 	// Show the results of a search
@@ -272,13 +274,13 @@ HERE;
 			print <<<HERE
 				<form action = "editRecipe.php">
 					<fieldset>
-					</fieldset
+					</fieldset>
 				</form>
 HERE;
 		}
 
-	// Edits the recipe and updates the information	
-		function updateRecipe($recipeID, $conn) {
+	// Collects the edits for the recipe and updates the information	
+		function updateRecipe($recipeID, $table, $conn) {
 			
 		}		
 ?>

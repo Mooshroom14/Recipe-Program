@@ -14,6 +14,9 @@
 			<?php include("menu.html"); ?>
 		</div>
 		<div id = "main">
+			<?php
+				editRecipeForm();
+			?>
 		</div>
 	</body>
 </html>

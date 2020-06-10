@@ -20,13 +20,14 @@
 	
 	$dbc = mysqli_connect($db['hostname'],$db['username'],$db['password'], $db['database']);
 	
+	$search = false;
+	
 	searchRecipeForm();
 	
-	$search = $_POST["search"];
 	$whatRecipe = $_POST["whatRecipe"];
 	$whatCategory = $_POST["whatCategory"];
 	
-	if (isset($search)) {
+	if ($search) {
 		// Get the values from the search form
 		$searchValue = mysqli_real_escape_string($_REQUEST["srchVal"], $dbc);
 		$searchField = $_REQUEST["srchField"];
